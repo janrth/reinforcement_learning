@@ -5,7 +5,6 @@ class ValueIteration(object):
     
     def __init__(self,
                  env,
-                 gamma,
                  threshold,
                  num_iterations):
         self.env=env
