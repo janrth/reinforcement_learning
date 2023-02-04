@@ -6,17 +6,18 @@ class PolicyIteration(object):
     def __init__(self,
                  env,
                  num_iterations,
-                 threshold):
+                 threshold,
+                 gamma):
         self.env = env
         self.num_iterations = num_iterations
         self.threshold = threshold
+        self.gamma = gamma
         
     def q_function(self,
-               value_table,
-               s,
-              ):
-        gamma=1
-        q_values = [sum([prob*(r + gamma*value_table[s_]) for prob, s_, r, _ 
+                   value_table,
+                   s,
+                   ):
+        q_values = [sum([prob*(r + self.gamma*value_table[s_]) for prob, s_, r, _ 
                              in self.env.P[s][a]]) for a in range(self.env.action_space.n)]
         return q_values
     
@@ -25,16 +26,13 @@ class PolicyIteration(object):
                    s,
                    a,
                    ):
-        gamma=1
-        value_table = sum([prob*(r+gamma*value_table[s_]) for prob, s_, r, _ 
+        value_table = sum([prob*(r+self.gamma*value_table[s_]) for prob, s_, r, _ 
                              in self.env.P[s][a]])
         return value_table
     
     def compute_value_function(self,
                                policy 
                                ):
-        gamma=1
-    
         value_table = np.zeros(self.env.observation_space.n)
     
         for i in range(self.num_iterations):
@@ -51,8 +49,7 @@ class PolicyIteration(object):
     
     def extract_policy(self,
                        value_table,
-                   ):
-        gamma=1
+                       ):
         policy=np.zeros(self.env.observation_space.n)
 
         for s in range(self.env.observation_space.n):
@@ -62,7 +59,6 @@ class PolicyIteration(object):
         return policy
     
     def policy_iteration(self):
-        gamma=1
         policy = np.zeros(self.env.observation_space.n)
 
         for i in range(self.num_iterations):

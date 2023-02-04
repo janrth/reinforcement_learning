@@ -6,17 +6,18 @@ class ValueIteration(object):
     def __init__(self,
                  env,
                  threshold,
-                 num_iterations):
+                 num_iterations,
+                 gamma):
         self.env=env
         self.threshold=threshold
         self.num_iterations=num_iterations
+        self.gamma=gamma
     
     def q_function(self,
                    value_table,
                    s,
               ):
-        gamma=1
-        q_values = [sum([prob*(r + gamma * value_table[s_]) for prob, s_, r, _ 
+        q_values = [sum([prob*(r + self.gamma * value_table[s_]) for prob, s_, r, _ 
                              in self.env.P[s][a]]) for a in range(self.env.action_space.n)]
         return q_values
 
