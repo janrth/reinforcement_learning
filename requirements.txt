@@ -1,2 +1,5 @@
 gym==0.26.2
+gym_bandits==0.0.1
 numpy==1.21.5
+pandas==1.5.3
+
