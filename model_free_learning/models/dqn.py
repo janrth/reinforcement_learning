@@ -64,13 +64,14 @@ class DQN:
         # compute target value using target network
         for state, action, reward, next_state, done in minibatch:
             if not done:
-                next_state = np.expand_dims(next_state.reshape(84,84,1), axis=0) # reshape image
+                next_state = np.array(next_state).reshape(4,84,84,-1)
                 target_Q = (reward + self.gamma * np.amax(
                     self.target_network.predict(next_state)))
             else:
                 target_Q = reward
         # return predictions from main network and store it in Q_values
-        state = np.expand_dims(state.reshape(84,84,1), axis=0) # reshape image
+        #state = np.expand_dims(state.reshape(84,84,1), axis=0) # reshape image
+        state = np.array(state).reshape(4,84,84,-1)
         Q_values = self.main_network.predict(state) 
         # update the target value:
         Q_values[0][action] = target_Q
